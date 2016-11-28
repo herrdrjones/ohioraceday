@@ -51,15 +51,16 @@ $FinishingTime = array_search("Finishing Time", $cNames);
 $RaceStart = array_search("Race Start Date/Time", $cNames);
 $PacePerMile = array_search("Pace per mile (by chip time)", $cNames);
 
-echo "<table>";
+/*echo "<table>";
 for ($row = 1; $row < $rows - 1; $row++) {  
     echo "<tr><td>".$array[$row][$BibNo]."</td>";
     echo "<td>".$array[$row][$LastName].", ".$array[$row][$FirstName]."</td>";
     echo "<td>".$array[$row][$DOB]."</td>";
     echo "<td>".$array[$row][$FinishingTime]."</td></tr>";
   }
-echo "</table>";
-
+echo "</table>";*/
+if ($BibNo === 0)
+{
 $dbUserName = "raceday_ohio";
 $dbServer = "localhost";
 $dbName = "raceday_ohioraceday";
@@ -82,7 +83,7 @@ if($results->num_rows>0)
 $connection->close();
 
 $connection = new mysqli($dbServer, $dbUserName, $dbPassword, $dbName);
-
+$rowCount = 0;
 for ($row = 1; $row < $rows; $row++) {  
     if($array[$row][$FinishingTime] != "") {
     $BirthDate = explode("/", $array[$row][$DOB]);
@@ -108,6 +109,7 @@ for ($row = 1; $row < $rows; $row++) {
     //$mysqltime = date("Y-m-d H:i", $array[$row][$RaceTime]);
     //echo $mysqltime;
     if ($connection->query($query) === TRUE) {
+        $rowCount++;
     }   else {
     echo "Error: " . $query . "<br>" . $connection->error;
 }
@@ -116,6 +118,18 @@ for ($row = 1; $row < $rows; $row++) {
     //$connection->query($query);
     }
   }    $connection->close();
+  echo "<br/>";
+  if ($rowCount != 0){
+      echo $rowCount." Finishers added to database.";
+  }
+  else{
+      echo "No Finishers were found in file: ".basename( $_FILES["fileToUpload"]["name"]);
+  }
+  
+}
+ else {
+    echo "Not a valid ART CSV file!";
+ }
 ?>
 
 

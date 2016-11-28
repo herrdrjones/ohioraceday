@@ -13,7 +13,7 @@ if($results->num_rows > 0)
     while($singleRow = $results->fetch_assoc())
     {
         //echo "<tr><td>".$singleRow["RaceName"]."</td></tr>";
-        echo '<tr><td> <a href="/dev/DisplayResults.php?race='.$singleRow["RaceName"].'">'.$singleRow["RaceName"].'</a> </td></tr>';
+        echo '<tr><td> <a href="./DisplayResults.php?race='.$singleRow["RaceName"].'">'.$singleRow["RaceName"].'</a> </td></tr>';
     }
     echo "</table>";
 }

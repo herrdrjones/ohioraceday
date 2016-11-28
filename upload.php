@@ -44,6 +44,7 @@ $DOB = array_search("DOB", $cNames);
 $Age = array_search("Age", $cNames);
 $Email = array_search("Email", $cNames);
 $RaceName = array_search("Race Name", $cNames);
+$OverallPlace = array_search("Overall Place (by chip time)", $cNames);
 $BestDiv = array_search("Best Division (by chip time)", $cNames);
 $DivPlace = array_search("Division Place (by chip time)", $cNames);
 $FinishingTime = array_search("Finishing Time", $cNames);
@@ -59,38 +60,44 @@ for ($row = 1; $row < $rows - 1; $row++) {
   }
 echo "</table>";
 
-$dbUserName = "root";
+$dbUserName = "raceday_ohio";
 $dbServer = "localhost";
-$dbName = "ohioraceday";
+$dbName = "raceday_ohioraceday";
+$dbPassword = "dead2013frog";
 //Check to see if results already exist
-$connection = new mysqli($dbServer, $dbUserName, "", $dbName);
-$query = "SELECT RaceName from RaceResults where RaceName='".str_replace("'", "''", $array[1][$RaceName])."';";
+$connection = new mysqli($dbServer, $dbUserName, $dbPassword, $dbName);
+$query = "SELECT `raceresults`.`RaceName` FROM `raceday_ohioraceday`.`raceresults` where RaceName ='".str_replace("'", "''", $array[1][$RaceName])."';";
+//echo $query;
 $results = $connection->query($query);
 //If results exist, delete all rows in the DB
 if($results->num_rows>0)
 {
-    $query = "DELETE from RaceResults where RaceName='".str_replace("'", "''", $array[1][$RaceName])."';";
-    $connection->query($query);
-    echo "Results Deleted";
+    $query = "DELETE FROM `raceresults` WHERE `RaceName` = '".str_replace("'", "''", $array[1][$RaceName])."';";
+    if ($connection->query($query) === TRUE) {
+    }   else {
+    echo "Error: " . $query . "<br>" . $connection->error;
+}
+    echo "Previous Results Deleted";
 }
 $connection->close();
 
-$connection = new mysqli($dbServer, $dbUserName, "", $dbName);
+$connection = new mysqli($dbServer, $dbUserName, $dbPassword, $dbName);
 
 for ($row = 1; $row < $rows; $row++) {  
     if($array[$row][$FinishingTime] != "") {
     $BirthDate = explode("/", $array[$row][$DOB]);
     $RaceDate = explode(" ", $array[$row][$RaceStart]);
     $RaceDate2 = explode("/", $RaceDate[0]);
-    $query = "Insert into RaceResults (BibNo, LastName, FirstName, Sex, DOB, Age, Email, RaceName, BestDiv, DivPlace, FinishingTime, RaceStart, PacePerMile) VALUES ";
+    $query = "INSERT INTO `raceresults`(`BibNo`, `LastName`, `FirstName`, `Sex`, `DOB`, `Age`, `Email`, `RaceName`, `OverallPlace`,`BestDiv`, `DivPlace`, `FinishingTime`, `RaceStart`, `PacePerMile`) VALUES ";
     $query .= "(".$array[$row][$BibNo].", ";
-    $query .= "'".$array[$row][$LastName]."', '";
-    $query .=$array[$row][$FirstName]."', '";
+    $query .= "'".str_replace("'", "''" ,$array[$row][$LastName])."', '";
+    $query .=str_replace("'", "''", $array[$row][$FirstName])."', '";
     $query .=$array[$row][$Sex]."','";
     $query .=$BirthDate[2]."-".$BirthDate[0]."-".$BirthDate[1]."', '";
     $query .=$array[$row][$Age]."','";
     $query .=$array[$row][$Email]."','";
     $query .= str_replace("'", "''", $array[$row][$RaceName])."','";
+    $query .=$array[$row][$OverallPlace]."','";
     $query .=$array[$row][$BestDiv]."','";
     $query .=$array[$row][$DivPlace]."','";
     $query .=$array[$row][$FinishingTime]."','";
@@ -100,9 +107,13 @@ for ($row = 1; $row < $rows; $row++) {
     //echo strtotime("2009-01-10 18:38:02");
     //$mysqltime = date("Y-m-d H:i", $array[$row][$RaceTime]);
     //echo $mysqltime;
+    if ($connection->query($query) === TRUE) {
+    }   else {
+    echo "Error: " . $query . "<br>" . $connection->error;
+}
     //echo $query;
     //echo "\n";
-    $connection->query($query);
+    //$connection->query($query);
     }
   }    $connection->close();
 ?>

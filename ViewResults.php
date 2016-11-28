@@ -1,3 +1,4 @@
+<TITLE>Results</TITLE>
 <?php
 $dbUserName = "raceday_ohio";
 $dbServer = "localhost";
@@ -9,7 +10,7 @@ $connection = new mysqli($dbServer, $dbUserName, $dbPassword);
 $results = $connection->query($query);
 if($results->num_rows > 0)
 {
-    echo "<table>";
+    echo "<table align='center'>";
     while($singleRow = $results->fetch_assoc())
     {
         //echo "<tr><td>".$singleRow["RaceName"]."</td></tr>";

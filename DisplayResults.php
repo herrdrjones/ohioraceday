@@ -22,7 +22,7 @@ $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     // output data of each row
-    echo "<table><tr><td>Place</td><td>Bib #</td><td>Name</td><td>Age</td><td>Sex</td><td width='30%'>Time</td><td>Pace</td></<tr>";
+    echo "<table><tr><td>Place</td><td>Bib #</td><td>Name</td><td>Age</td><td>Sex</td><td width='30%'>Time</td><td>Pace</td></tr>";
     while($row = $result->fetch_assoc()) {
         echo "<tr><td align='center'>".$row["OverallPlace"]."</td><td>".$row["BibNo"]."</td><td>".$row["FirstName"]." ".$row["LastName"]."</td><td>".$row["Age"]."</td><td>".$row["Sex"]."</td><td>".$row["FinishingTime"]."</td><td>".$row["PacePerMile"]."</td></tr>";
         //echo "Bib #: " .$row["BibNo"]. " - Name: " . $row["FirstName"]. " " . $row["LastName"]." ".$row["FinishingTime"]. "<br>";
@@ -44,7 +44,7 @@ if ($result->num_rows > 0) {
         if($result2->num_rows >0)
         {
             echo $row["BestDiv"]."<br/>";
-            echo "<table><tr><td>Division Place</td><td>Bib #</td><td>Name</td><td>Time</td></<tr>";
+            echo "<table><tr><td>Division Place</td><td>Bib #</td><td>Name</td><td>Time</td></tr>";
         
             while($row2 = $result2->fetch_assoc()) {
         echo "<tr><td>".$row2["DivPlace"]."</td><td>".$row2["BibNo"]."</td><td>".$row2["FirstName"]." ".$row2["LastName"].'</td><td align="right">'.$row2["FinishingTime"]."</td></tr>";
@@ -67,7 +67,7 @@ if ($result->num_rows > 0) {
         if($result2->num_rows >0)
         {
             echo $row["BestDiv"]."<br/>";
-            echo "<table><tr><td>Division Place</td><td>Bib #</td><td>Name</td><td>Time</td></<tr>";
+            echo "<table><tr><td>Division Place</td><td>Bib #</td><td>Name</td><td>Time</td></tr>";
         
             while($row2 = $result2->fetch_assoc()) {
         echo "<tr><td>".$row2["DivPlace"]."</td><td>".$row2["BibNo"]."</td><td>".$row2["FirstName"]." ".$row2["LastName"].'</td><td align="right">'.$row2["FinishingTime"]."</td></tr>";

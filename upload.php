@@ -2,6 +2,8 @@
 <?php
 $target_dir = "uploads/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+if($target_dir != $target_file)
+{
 $uploadOk = 1;
 $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 
@@ -78,7 +80,7 @@ if($results->num_rows>0)
     }   else {
     echo "Error: " . $query . "<br>" . $connection->error;
 }
-    echo "Previous Results Deleted";
+    echo "<br/>Previous Results Deleted";
 }
 $connection->close();
 
@@ -130,6 +132,16 @@ for ($row = 1; $row < $rows; $row++) {
  else {
     echo "Not a valid ART CSV file!";
  }
+}
+ else {
+     echo "No file attached";
+     echo "<br/>";
+     //echo '<a href="./">Return</a>';
+}
+echo '<br/>';
+echo '<a href="./ViewResults.php">View Results</a>';
+echo '<br/>';
+echo '<a href="./">Return</a>';
 ?>
 
 

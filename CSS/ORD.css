@@ -1,0 +1,14 @@
+.results {
+    margin: 0px auto;
+    color: blue;
+    width: 50%;
+    text-decoration:none;
+    color:#079ad8;
+}
+
+
+.resultsLink {
+    font-family:Verdana, "Times New Roman", Times, serif;
+    text-decoration:none;
+    color:#079ad8;
+}

@@ -1,7 +1,6 @@
 <?php
 $race = $_GET['race'];
-echo $race;
-echo "<br/>";
+
 
 $dbUserName = "raceday_ohio";
 $dbServer = "localhost";
@@ -17,7 +16,14 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT OverallPlace, BibNo, FirstName, LastName, Sex, Age, FinishingTime, PacePerMile FROM raceresults where RaceName = '".str_replace("'", "''", $race)."' order by OverallPlace;";
+$sql = "SELECT * from `raceday_ohioraceday`.`races` where RaceID = ".$race;
+$result = $conn->query($sql);
+$row = $result->fetch_assoc();
+echo "<H2>".$row["RaceName"]."</H2>";
+echo "<br/>";
+
+
+$sql = "SELECT OverallPlace, BibNo, FirstName, LastName, Sex, Age, FinishingTime, PacePerMile FROM raceresults where RaceID = ".$race." order by OverallPlace;";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
@@ -32,13 +38,13 @@ if ($result->num_rows > 0) {
     echo "0 results";
 }
 
-$sql = "SELECT DISTINCT BestDiv FROM raceresults where RaceName = '".str_replace("'", "''", $race)."' AND BestDiv LIKE 'Overall%' order by BestDiv;";
+$sql = "SELECT DISTINCT BestDiv FROM raceresults where RaceID = ".$race." AND BestDiv LIKE 'Overall%' order by BestDiv;";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc())
     {
-        $DivQuery = "SELECT DivPlace, BibNo, FirstName, LastName, FinishingTime FROM raceresults where RaceName = '".str_replace("'", "''", $race)."' and BestDiv ='".$row["BestDiv"]."' ORDER BY DivPlace";
+        $DivQuery = "SELECT DivPlace, BibNo, FirstName, LastName, FinishingTime FROM raceresults where RaceID = ".$race." and BestDiv ='".$row["BestDiv"]."' ORDER BY DivPlace";
     
         $result2 = $conn->query($DivQuery);
         if($result2->num_rows >0)
@@ -55,13 +61,13 @@ if ($result->num_rows > 0) {
     }
 }
 
-$sql = "SELECT DISTINCT BestDiv FROM raceresults where RaceName = '".str_replace("'", "''", $race)."' AND BestDiv NOT LIKE 'Overall%' order by BestDiv;";
+$sql = "SELECT DISTINCT BestDiv FROM raceresults where RaceID = ".$race." AND BestDiv NOT LIKE 'Overall%' order by BestDiv;";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc())
     {
-        $DivQuery = "SELECT DivPlace, BibNo, FirstName, LastName, FinishingTime FROM raceresults where RaceName = '".str_replace("'", "''", $race)."' and BestDiv ='".$row["BestDiv"]."' ORDER BY DivPlace";
+        $DivQuery = "SELECT DivPlace, BibNo, FirstName, LastName, FinishingTime FROM raceresults where RaceID = ".$race." and BestDiv ='".$row["BestDiv"]."' ORDER BY DivPlace";
     
         $result2 = $conn->query($DivQuery);
         if($result2->num_rows >0)

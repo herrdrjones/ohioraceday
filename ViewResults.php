@@ -7,7 +7,7 @@ $dbName = "raceday_ohioraceday";
 $dbPassword = "dead2013frog";
 //Get list of races
 $connection = new mysqli($dbServer, $dbUserName, $dbPassword);
-    $query = "select `races`.`RaceName`, `races`.`RaceID` FROM `raceday_ohioraceday`.`races` order by left(RaceStart, 4) desc, RaceStart;";
+    $query = "select `races`.`RaceName`, `races`.`RaceID` FROM `raceday_ohioraceday`.`races` order by left(RaceStart, 4) desc, RaceStart, SortOrder;";
 $results = $connection->query($query);
 if($results->num_rows > 0)
 {

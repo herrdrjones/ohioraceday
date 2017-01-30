@@ -65,14 +65,7 @@ img.emoji {
                                             <div id="menu">
         <ul class="ddsmoothmenu">
             <li><a href="http://ohioraceday.com/">Home</a></li><li class="page_item page-item-14 page_item_has_children"><a href="http://ohioraceday.com/races/">Races</a>
-<ul class='children'>
-	<li class="page_item page-item-2609"><a href="http://ohioraceday.com/races/blizzard-busters-5k/">Blizzard Busters 5K</a></li>
-	<li class="page_item page-item-166"><a href="http://ohioraceday.com/races/mardi-gras-5k/">Mardi Gras 5K</a></li>
-	<li class="page_item page-item-838"><a href="http://ohioraceday.com/races/malawi-5k/">Liwiro la Malawi 5K</a></li>
-	<li class="page_item page-item-2089"><a href="http://ohioraceday.com/races/bunny-buster-5k/">Ashland YMCA Bunny Buster 5K</a></li>
-	<li class="page_item page-item-2599"><a href="http://ohioraceday.com/races/runyan/">1LT Michael L Runyan 5K</a></li>
-	<li class="page_item page-item-177"><a href="http://ohioraceday.com/races/kingwood-center-5k/">Kingwood Center 5K</a></li>
-</ul>
+
 </li>
 <li class="page_item page-item-16 current_page_item"><a href="http://ohioraceday.com/results/">Results</a></li>
 <li class="page_item page-item-1508"><a href="http://ohioraceday.com/archives/">Archives</a></li>
@@ -107,7 +100,7 @@ img.emoji {
                 <div class="grid_16 alpha">
                     <div class="content-bar">  			
                                                     <h4>&nbsp;</h4>
-<h4>&nbsp;<strong><span style="text-decoration: underline;">2016</span></strong></h4>
+<h4>&nbsp;<strong><span style="text-decoration: underline;">2017</span></strong></h4>
 <?php
 $dbUserName = "raceday_ohio";
 $dbServer = "localhost";
@@ -129,8 +122,8 @@ if($results->num_rows > 0)
             //echo "<tr><td><hr/></td></tr>";    
         }
         else{
-            echo "<tr><td></td></tr>";
-            echo "<tr><td></td></tr>";
+            //echo "<tr><td><br/></td></tr>";
+            echo "<tr><td><br/></td></tr>";
         }
         echo '<tr><td> <a class="resultsLink" href="./DisplayResults.php?race='.$singleRow["RaceID"].'">'.$singleRow["RaceName"].'</a> </td></tr>';
         
@@ -141,7 +134,7 @@ if($results->num_rows > 0)
     echo "</table>";
 }
 else
-    echo "Problem";
+    echo "No Results";
 ?>
 <p>&nbsp;</p>
 <p>&nbsp;</p>

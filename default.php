@@ -1,18 +1,19 @@
 <?php
-/*$myfile = fopen("output.txt", "w") or die ("Unable to open file!");
-$txt = "Welcome to\r\n";
-fwrite($myfile, $txt);
-$txt = "Ohio Race Day";
-fwrite($myfile, $txt);
-fclose($myfile);
-echo(var_dump($txt));*/
 
-function printT($text = "bull")
-{
-    echo $text;
-}
 
-printT("Hello");
-printT();
 ?>
+
+<!DOCTYPE html>
+<html>
+<body>
+
+<form action="upload.php" method="post" enctype="multipart/form-data">
+    Select csv to upload:
+    <input type="file" name="fileToUpload" id="fileToUpload" accept=".csv">
+    <input type="submit" value="Upload" name="submit">
+</form>
+
+</body>
+</html>
+
 

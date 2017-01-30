@@ -2,25 +2,16 @@
 if($_SERVER['REQUEST_METHOD'] == 'POST')
 {
     //var_dump($_POST);
-    $RaceID = $_POST['RaceID'];
-    $Sort = $_POST['Sort'];
-    
-    $dbUserName = "raceday_ohio";
-    $dbServer = "localhost";
-    $dbName = "raceday_ohioraceday";
-    $dbPassword = "dead2013frog";
-    // Create connection
-    $conn = new mysqli($dbServer, $dbUserName, $dbPassword, $dbName);
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+    if(isset($_POST['Sort']))
+    {
+        updateSort();
     }
-
-    $sql = "update `raceday_ohioraceday`.`races` set SortOrder =".$Sort." where RaceID =".$RaceID.";";
-    $conn->query($sql);
-    $conn->close();
-    
-    loadTable();
+ else {
+       if(isset($_POST['delete']))
+    {
+        deleteRace();
+    } 
+    }  
 }
 else
 {
@@ -68,8 +59,13 @@ if ($result->num_rows > 0) {
                        $i = $i + 1;
                 }
                 
-                echo "</select></td><td><input type='submit' value='Save' name='submit'></td></form>";
+                echo "</select></td><td><input type='submit' value='Save' name='submit'></td>";
+                             
                 }
+                else {
+                    echo"<td></td><td></td>";
+                }
+                echo "<td><input type='submit' value='Delete' name='delete'></td></form>"; 
                 echo "</tr>";
     }
     echo "</table>";
@@ -77,6 +73,53 @@ if ($result->num_rows > 0) {
     echo "0 results";
 }
 $conn->close();
+}
+
+function updateSort()
+{
+    $RaceID = $_POST['RaceID'];
+    $Sort = $_POST['Sort'];
+    
+    $dbUserName = "raceday_ohio";
+    $dbServer = "localhost";
+    $dbName = "raceday_ohioraceday";
+    $dbPassword = "dead2013frog";
+    // Create connection
+    $conn = new mysqli($dbServer, $dbUserName, $dbPassword, $dbName);
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $sql = "update `raceday_ohioraceday`.`races` set SortOrder =".$Sort." where RaceID =".$RaceID.";";
+    $conn->query($sql);
+    $conn->close();
+    
+    loadTable(); 
+}
+
+function deleteRace()
+{
+    $RaceID = $_POST['RaceID'];
+    
+    $dbUserName = "raceday_ohio";
+    $dbServer = "localhost";
+    $dbName = "raceday_ohioraceday";
+    $dbPassword = "dead2013frog";
+    // Create connection
+    $conn = new mysqli($dbServer, $dbUserName, $dbPassword, $dbName);
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $sql = "delete from `raceday_ohioraceday`.`races` where RaceID =".$RaceID.";";
+    $conn->query($sql);
+    $sql = "delete from `raceday_ohioraceday`.`raceresults` where RaceID =".$RaceID.";";
+    $conn->query($sql);
+    $conn->close();
+    
+    loadTable();
 }
 ?>
 

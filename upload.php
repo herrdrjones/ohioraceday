@@ -42,6 +42,7 @@ $BibNo = array_search("Bib #", $cNames);
 $LastName = array_search("Last Name", $cNames);
 $FirstName = array_search("First Name", $cNames);
 $Sex = array_search("Sex", $cNames);
+$AthleteType = array_search("Athlete Type", $cNames);
 $DOB = array_search("DOB", $cNames);
 $Age = array_search("Age", $cNames);
 $Email = array_search("Email", $cNames);
@@ -116,13 +117,14 @@ $rowCount = 0;
 for ($row = 1; $row < $rows; $row++) {  
     if($array[$row][$FinishingTime] != "") {
     $BirthDate = explode("/", $array[$row][$DOB]);
-    $query = "INSERT INTO `raceresults`(`BibNo`, `LastName`, `FirstName`, `Sex`, `DOB`, `Age`, `Email`, `RaceID`, `OverallPlace`,`BestDiv`, `DivPlace`, `FinishingTime`, `PacePerMile`) VALUES ";
+    $query = "INSERT INTO `raceresults`(`BibNo`, `LastName`, `FirstName`, `Sex`, `DOB`, `Age`, `AthleteType`,`Email`, `RaceID`, `OverallPlace`,`BestDiv`, `DivPlace`, `FinishingTime`, `PacePerMile`) VALUES ";
     $query .= "(".$array[$row][$BibNo].", ";
     $query .= "'".str_replace("'", "''" ,$array[$row][$LastName])."', '";
     $query .=str_replace("'", "''", $array[$row][$FirstName])."', '";
     $query .=$array[$row][$Sex]."','";
     $query .=$BirthDate[2]."-".$BirthDate[0]."-".$BirthDate[1]."', '";
     $query .=$array[$row][$Age]."','";
+    $query .=$array[$row][$AthleteType]."','";
     $query .=$array[$row][$Email]."',";
     $query .= $RaceID.",'";
     $query .=$array[$row][$OverallPlace]."','";
@@ -165,6 +167,8 @@ for ($row = 1; $row < $rows; $row++) {
 echo '<br/>';
 echo '<a href="./ViewResults.php">View Results</a>';
 echo '<br/>';
+echo '<a href="./RaceOrder.php">Race Order/Delete Race</a>';
+echo '<br />';
 echo '<a href="./">Return</a>';
 ?>
 

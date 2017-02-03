@@ -11,7 +11,7 @@
 
 
 <?php
-$race = $_GET['race'];
+$race = 10;
 
 
 $dbUserName = "raceday_ohio";

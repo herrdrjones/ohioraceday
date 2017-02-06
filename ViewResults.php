@@ -31,10 +31,11 @@
 
 <link href="CSS/ORD.css" rel="stylesheet" type="text/css"/>
 <?php
-$dbUserName = "raceday_ohio";
-$dbServer = "localhost";
-$dbName = "raceday_ohioraceday";
-$dbPassword = "dead2013frog";
+$db = parse_ini_file("config-file.ini");
+$dbUserName = $db['user'];
+$dbServer = $db['server'];
+$dbName = $db['name'];
+$dbPassword = $db['pass'];
 //Get list of races
 $connection = new mysqli($dbServer, $dbUserName, $dbPassword);
     $query = "select `races`.`RaceName`, `races`.`RaceID` FROM `raceday_ohioraceday`.`races` order by left(RaceStart, 4) desc, RaceStart desc, SortOrder;";

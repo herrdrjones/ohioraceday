@@ -6,10 +6,11 @@ echo $race;
 echo "<br/>";
 echo $last.", ".$first;
 
-$dbUserName = "raceday_ohio";
-$dbServer = "localhost";
-$dbName = "raceday_ohioraceday";
-$dbPassword = "dead2013frog";
+$db = parse_ini_file("config-file.ini");
+$dbUserName = $db['user'];
+$dbServer = $db['server'];
+$dbName = $db['name'];
+$dbPassword = $db['pass'];
 
 // Create connection
 $conn = new mysqli($dbServer, $dbUserName, $dbPassword, $dbName);

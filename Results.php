@@ -102,10 +102,11 @@ img.emoji {
                                                     <h4>&nbsp;</h4>
 <h4>&nbsp;<strong><span style="text-decoration: underline;">2017</span></strong></h4>
 <?php
-$dbUserName = "raceday_ohio";
-$dbServer = "localhost";
-$dbName = "raceday_ohioraceday";
-$dbPassword = "dead2013frog";
+$db = parse_ini_file("config-file.ini");
+$dbUserName = $db['user'];
+$dbServer = $db['server'];
+$dbName = $db['name'];
+$dbPassword = $db['pass'];
 //Get list of races
 $connection = new mysqli($dbServer, $dbUserName, $dbPassword);
     $query = "select `races`.`RaceName`, `races`.`RaceID` FROM `raceday_ohioraceday`.`races` where left(RaceStart, 4) = '2017' order by RaceStart desc, SortOrder;";

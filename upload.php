@@ -94,10 +94,11 @@ for ($row = 1; $row < $rows - 1; $row++) {
 echo "</table>";*/
 if ($BibNo === 0)
 {
-$dbUserName = "raceday_ohio";
-$dbServer = "localhost";
-$dbName = "raceday_ohioraceday";
-$dbPassword = "dead2013frog";
+$db = parse_ini_file("config-file.ini");
+$dbUserName = $db['user'];
+$dbServer = $db['server'];
+$dbName = $db['name'];
+$dbPassword = $db['pass'];
 //Check to see if results already exist
 $connection = new mysqli($dbServer, $dbUserName, $dbPassword, $dbName);
 $query = "SELECT * from `raceday_ohioraceday`.`races` where RaceName ='".str_replace("'", "''", $array[1][$RaceName])."';";

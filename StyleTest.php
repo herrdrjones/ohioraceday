@@ -14,10 +14,11 @@
 $race = 10;
 
 
-$dbUserName = "raceday_ohio";
-$dbServer = "localhost";
-$dbName = "raceday_ohioraceday";
-$dbPassword = "dead2013frog";
+$db = parse_ini_file("config-file.ini");
+$dbUserName = $db['user'];
+$dbServer = $db['server'];
+$dbName = $db['name'];
+$dbPassword = $db['pass'];
 
 
 

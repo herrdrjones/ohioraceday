@@ -28,133 +28,126 @@
                     </div>        
                 </div>
             </header>  
-<?php
-if($_SERVER['REQUEST_METHOD'] == 'POST')
-{
-    //var_dump($_POST);
-    if(isset($_POST['Sort']))
-    {
-        updateSort();
-    }
- else {
-       if(isset($_POST['delete']))
-    {
-        deleteRace();
-    } 
-    }  
-}
-else
-{
-    loadTable();
-}
-function loadTable()
-{
-$dbUserName = "raceday_ohio";
-$dbServer = "localhost";
-$dbName = "raceday_ohioraceday";
-$dbPassword = "dead2013frog";
+            <?php
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                //var_dump($_POST);
+                if (isset($_POST['Sort'])) {
+                    updateSort();
+                } else {
+                    if (isset($_POST['delete'])) {
+                        deleteRace();
+                    }
+                }
+            } else {
+                loadTable();
+            }
+
+            function loadTable() {
+                $db = parse_ini_file("config-file.ini");
+                $dbUserName = $db['user'];
+                $dbServer = $db['server'];
+                $dbName = $db['name'];
+                $dbPassword = $db['pass'];
 
 // Create connection
-$conn = new mysqli($dbServer, $dbUserName, $dbPassword, $dbName);
+                $conn = new mysqli($dbServer, $dbUserName, $dbPassword, $dbName);
 // Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-$sql = "select * FROM `raceday_ohioraceday`.`races` order by left(RaceStart, 4) desc, RaceStart, SortOrder;";
-$result = $conn->query($sql);
-
-if ($result->num_rows > 0) {
-    // output data of each row
-    echo "<div class='col-md-8 col-md-offset-2'>";
-    echo "<table class='table table-striped'><thead><tr><th>Race</th><th>Race Date</th><th>Sort Order</th></tr></thead>";
-    while($row = $result->fetch_assoc()) {
-        /*count the number of races on a date*/
-        $sql = "select count(*) as count from `raceday_ohioraceday`.`races` where RaceStart = '".$row["RaceStart"]."';";
-        $count = $conn->query($sql);
-        $row2 = $count->fetch_assoc();
-        $rowCount = $row2["count"];
-        
-        echo "<tr><form action='RaceOrder.php' method='post'><input type='hidden' name='RaceID' value='".$row["RaceID"]."'/><td>"
-                .$row["RaceName"]."</td><td>".$row["RaceStart"]."</td><td>".$row["SortOrder"]
-                ."</td>";
-                if($rowCount > 1){
-                echo "<td><select name='Sort'><option value=''>Select...</option>";
-                for($i=1;$i<=$rowCount;)
-                {
-                    if($i == $row["SortOrder"])
-                        echo "<option value='".$i."'selected='selected'>".$i."</option>";
-                    else
-                       echo "<option value='".$i."'>".$i."</option>"; 
-                       $i = $i + 1;
+                if ($conn->connect_error) {
+                    die("Connection failed: " . $conn->connect_error);
                 }
-                
-                echo "</select></td><td><input type='submit' value='Save' name='submit'></td>";
-                             
+
+                $sql = "select * FROM `raceday_ohioraceday`.`races` order by left(RaceStart, 4) desc, RaceStart, SortOrder;";
+                $result = $conn->query($sql);
+
+                if ($result->num_rows > 0) {
+                    // output data of each row
+                    echo "<div class='col-md-8 col-md-offset-2'>";
+                    echo "<table class='table table-striped'><thead><tr><th>Race</th><th>Race Date</th><th>Sort Order</th></tr></thead>";
+                    while ($row = $result->fetch_assoc()) {
+                        /* count the number of races on a date */
+                        $sql = "select count(*) as count from `raceday_ohioraceday`.`races` where RaceStart = '" . $row["RaceStart"] . "';";
+                        $count = $conn->query($sql);
+                        $row2 = $count->fetch_assoc();
+                        $rowCount = $row2["count"];
+
+                        echo "<tr><form action='RaceOrder.php' method='post'><input type='hidden' name='RaceID' value='" . $row["RaceID"] . "'/><td>"
+                        . $row["RaceName"] . "</td><td>" . $row["RaceStart"] . "</td><td>" . $row["SortOrder"]
+                        . "</td>";
+                        if ($rowCount > 1) {
+                            echo "<td><select name='Sort'><option value=''>Select...</option>";
+                            for ($i = 1; $i <= $rowCount;) {
+                                if ($i == $row["SortOrder"])
+                                    echo "<option value='" . $i . "'selected='selected'>" . $i . "</option>";
+                                else
+                                    echo "<option value='" . $i . "'>" . $i . "</option>";
+                                $i = $i + 1;
+                            }
+
+                            echo "</select></td><td><input type='submit' value='Save' name='submit'></td>";
+                        }
+                        else {
+                            echo"<td></td><td></td>";
+                        }
+                        echo "<td><input type='submit' value='Delete' name='delete'></td></form>";
+                        echo "</tr>";
+                    }
+                    echo "</table></div>";
+                } else {
+                    echo "0 results";
                 }
-                else {
-                    echo"<td></td><td></td>";
+                $conn->close();
+            }
+
+            function updateSort() {
+                $RaceID = $_POST['RaceID'];
+                $Sort = $_POST['Sort'];
+
+                $db = parse_ini_file("config-file.ini");
+                $dbUserName = $db['user'];
+                $dbServer = $db['server'];
+                $dbName = $db['name'];
+                $dbPassword = $db['pass'];
+                // Create connection
+                $conn = new mysqli($dbServer, $dbUserName, $dbPassword, $dbName);
+                // Check connection
+                if ($conn->connect_error) {
+                    die("Connection failed: " . $conn->connect_error);
                 }
-                echo "<td><input type='submit' value='Delete' name='delete'></td></form>"; 
-                echo "</tr>";
-    }
-    echo "</table></div>";
-} else {
-    echo "0 results";
-}
-$conn->close();
-}
 
-function updateSort()
-{
-    $RaceID = $_POST['RaceID'];
-    $Sort = $_POST['Sort'];
-    
-    $dbUserName = "raceday_ohio";
-    $dbServer = "localhost";
-    $dbName = "raceday_ohioraceday";
-    $dbPassword = "dead2013frog";
-    // Create connection
-    $conn = new mysqli($dbServer, $dbUserName, $dbPassword, $dbName);
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+                $sql = "update `raceday_ohioraceday`.`races` set SortOrder =" . $Sort . " where RaceID =" . $RaceID . ";";
+                $conn->query($sql);
+                $conn->close();
 
-    $sql = "update `raceday_ohioraceday`.`races` set SortOrder =".$Sort." where RaceID =".$RaceID.";";
-    $conn->query($sql);
-    $conn->close();
-    
-    loadTable(); 
-}
+                loadTable();
+            }
 
-function deleteRace()
-{
-    $RaceID = $_POST['RaceID'];
-    
-    $dbUserName = "raceday_ohio";
-    $dbServer = "localhost";
-    $dbName = "raceday_ohioraceday";
-    $dbPassword = "dead2013frog";
-    // Create connection
-    $conn = new mysqli($dbServer, $dbUserName, $dbPassword, $dbName);
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+            function deleteRace() {
+                $RaceID = $_POST['RaceID'];
 
-    $sql = "delete from `raceday_ohioraceday`.`races` where RaceID =".$RaceID.";";
-    $conn->query($sql);
-    $sql = "delete from `raceday_ohioraceday`.`raceresults` where RaceID =".$RaceID.";";
-    $conn->query($sql);
-    $conn->close();
-    
-    loadTable();
-}
-?>
-           </div>
+                $db = parse_ini_file("config-file.ini");
+                $dbUserName = $db['user'];
+                $dbServer = $db['server'];
+                $dbName = $db['name'];
+                $dbPassword = $db['pass'];
+                // Create connection
+                $conn = new mysqli($dbServer, $dbUserName, $dbPassword, $dbName);
+                // Check connection
+                if ($conn->connect_error) {
+                    die("Connection failed: " . $conn->connect_error);
+                }
+
+                $sql = "delete from `raceday_ohioraceday`.`races` where RaceID =" . $RaceID . ";";
+                $conn->query($sql);
+                $sql = "delete from `raceday_ohioraceday`.`raceresults` where RaceID =" . $RaceID . ";";
+                $conn->query($sql);
+                $conn->close();
+
+                loadTable();
+            }
+            ?>
+        </div>
     </body>
-           </html>
+</html>
 
 
 

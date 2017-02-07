@@ -8,7 +8,7 @@ echo $last.", ".$first;
 
 $db = parse_ini_file("config-file.ini");
 $dbUserName = $db['user'];
-$dbServer = $db['server'];
+$dbServer = $db['host'];
 $dbName = $db['name'];
 $dbPassword = $db['pass'];
 

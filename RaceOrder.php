@@ -45,7 +45,7 @@
             function loadTable() {
                 $db = parse_ini_file("config-file.ini");
                 $dbUserName = $db['user'];
-                $dbServer = $db['server'];
+                $dbServer = $db['host'];
                 $dbName = $db['name'];
                 $dbPassword = $db['pass'];
 
@@ -89,6 +89,14 @@
                             echo"<td></td><td></td>";
                         }
                         echo "<td><input type='submit' value='Delete' name='delete'></td></form>";
+                        if ($row["PDF"] == 1) {
+                            echo "<td>".$row["PDFName"]."</td>";
+                        } else {
+                            echo "<td></td>";
+                        }
+                        echo "<form action='uploadpdf.php' method='post'><input type='hidden' name='RaceID' value='" . $row["RaceID"] . "'/>";
+                        echo "<td><input type='submit' value='Edit' name='edit'></td>";
+                        echo "</form>";
                         echo "</tr>";
                     }
                     echo "</table></div>";
@@ -104,7 +112,7 @@
 
                 $db = parse_ini_file("config-file.ini");
                 $dbUserName = $db['user'];
-                $dbServer = $db['server'];
+                $dbServer = $db['host'];
                 $dbName = $db['name'];
                 $dbPassword = $db['pass'];
                 // Create connection
@@ -126,7 +134,7 @@
 
                 $db = parse_ini_file("config-file.ini");
                 $dbUserName = $db['user'];
-                $dbServer = $db['server'];
+                $dbServer = $db['host'];
                 $dbName = $db['name'];
                 $dbPassword = $db['pass'];
                 // Create connection

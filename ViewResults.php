@@ -33,12 +33,13 @@
 <?php
 $db = parse_ini_file("config-file.ini");
 $dbUserName = $db['user'];
-$dbServer = $db['server'];
+$dbServer = $db['host'];
 $dbName = $db['name'];
 $dbPassword = $db['pass'];
 //Get list of races
 $connection = new mysqli($dbServer, $dbUserName, $dbPassword);
-    $query = "select `races`.`RaceName`, `races`.`RaceID` FROM `raceday_ohioraceday`.`races` order by left(RaceStart, 4) desc, RaceStart desc, SortOrder;";
+    $query = "select `races`.`RaceName`, `races`.`RaceID`, `races`.`PDF`, `races`.`FileLocation` FROM `raceday_ohioraceday`.`races`"
+                ."order by left(RaceStart, 4) desc, RaceStart desc, SortOrder;";
 $results = $connection->query($query);
 if($results->num_rows > 0)
 {
@@ -55,7 +56,11 @@ if($results->num_rows > 0)
             echo "<tr><td></td></tr>";
             echo "<tr><td></td></tr>";
         }
-        echo '<tr><td> <a class="resultsLink" href="./DisplayResults.php?race='.$singleRow["RaceID"].'">'.$singleRow["RaceName"].'</a> </td></tr>';
+        echo '<tr><td> <a class="resultsLink" href="./DisplayResults.php?race='.$singleRow["RaceID"].'">'.$singleRow["RaceName"].'</a>';
+        if($singleRow["PDF"] == 1){
+            echo ' '.'<a class="resultsLink" href="../'.$singleRow["FileLocation"].'">[PDF]</a>';
+        }        
+        echo '</td></tr>';
         
         $previousRow = substr($singleRow["RaceName"], 0, 8);
         

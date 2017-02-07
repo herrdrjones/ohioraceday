@@ -16,7 +16,7 @@
             <header class="container">  
                 <div id="menu" class="navbar navbar-default navbar-fixed-top">
                     <div class="navbar-header">
-                        <button class="btn btn-success navbar-toggle" 
+                        <button class="btn btn-primary navbar-toggle" 
                                 data-toggle="collapse"
                                 data-target=".navbar-collapse"><span class="glyphicon glyphicon-chevron-down"></span></button>
                     </div>

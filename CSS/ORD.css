@@ -16,3 +16,7 @@
 body {
     margin-top: 120px;
 }
+
+.glyphicon {
+    color: blue;
+}

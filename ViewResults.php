@@ -22,8 +22,9 @@
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
                             <li class="nav"><a href=".">Upload Results</a></li>
-                            <li class="nav"><a href="RaceOrder.php">Race Order</a></li>
+                            <li class="nav"><a href="RaceOrder.php">Race Admin</a></li>
                             <li class="nav active"><a href="ViewResults.php">Results</a></li>
+                            <li class="nav"><a href="NewRace.php">New Race</a></li>
                         </ul>
                     </div>        
                 </div>
@@ -38,7 +39,7 @@ $dbName = $db['name'];
 $dbPassword = $db['pass'];
 //Get list of races
 $connection = new mysqli($dbServer, $dbUserName, $dbPassword);
-    $query = "select `races`.`RaceName`, `races`.`RaceID`, `races`.`PDF`, `races`.`FileLocation` FROM `raceday_ohioraceday`.`races`"
+    $query = "select `races`.`RaceName`, `races`.`RaceID`, `races`.`PDF`, `races`.`DBResults`, `races`.`FileLocation` FROM `raceday_ohioraceday`.`races`"
                 ."order by left(RaceStart, 4) desc, RaceStart desc, SortOrder;";
 $results = $connection->query($query);
 if($results->num_rows > 0)
@@ -56,11 +57,21 @@ if($results->num_rows > 0)
             echo "<tr><td></td></tr>";
             echo "<tr><td></td></tr>";
         }
+        if($singleRow["PDF"] == 0 && $singleRow["DBResults"] == 0)
+        {
+            echo '<tr><td>'.$singleRow["RaceName"].' (Coming Soon)';
+        }
+        if($singleRow["PDF"] == 1 && $singleRow["DBResults"] == 0)
+        {
+            echo '<tr><td> <a class="resultsLink" href="../'.$singleRow["FileLocation"].'">'.$singleRow["RaceName"].'</a>';
+        }
+        if($singleRow["DBResults"] == 1){
         echo '<tr><td> <a class="resultsLink" href="./DisplayResults.php?race='.$singleRow["RaceID"].'">'.$singleRow["RaceName"].'</a>';
         if($singleRow["PDF"] == 1){
             echo ' '.'<a class="resultsLink" href="../'.$singleRow["FileLocation"].'">[PDF]</a>';
         }        
         echo '</td></tr>';
+        }
         
         $previousRow = substr($singleRow["RaceName"], 0, 8);
         

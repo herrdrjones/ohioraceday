@@ -22,20 +22,20 @@
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
                             <li class="nav"><a href=".">Upload Results</a></li>
-                            <li class="nav active"><a href="RaceOrder.php">Race Order</a></li>
+                            <li class="nav active"><a href="RaceOrder.php">Race Admin</a></li>
                             <li class="nav"><a href="ViewResults.php">Results</a></li>
+                            <li class="nav"><a href="NewRace.php">New Race</a></li>
                         </ul>
                     </div>        
                 </div>
             </header>  
             <?php
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                //var_dump($_POST);
-                if (isset($_POST['Sort'])) {
-                    updateSort();
+                if (isset($_POST['delete'])) {
+                    deleteRace();
                 } else {
-                    if (isset($_POST['delete'])) {
-                        deleteRace();
+                    if (isset($_POST['Sort'])) {
+                        updateSort();
                     }
                 }
             } else {
@@ -56,13 +56,14 @@
                     die("Connection failed: " . $conn->connect_error);
                 }
 
-                $sql = "select * FROM `raceday_ohioraceday`.`races` order by left(RaceStart, 4) desc, RaceStart, SortOrder;";
+                $sql = "select * FROM `raceday_ohioraceday`.`races` order by left(RaceStart, 4) desc, RaceStart desc, SortOrder;";
                 $result = $conn->query($sql);
 
                 if ($result->num_rows > 0) {
                     // output data of each row
-                    echo "<div class='col-md-8 col-md-offset-2'>";
-                    echo "<table class='table table-striped'><thead><tr><th>Race</th><th>Race Date</th><th>Sort Order</th></tr></thead>";
+                    echo "<div class='col-md-10 col-md-offset-1'>";
+                    echo "<table class='table table-striped'><thead><tr><th>Race</th><th>Race Date</th><th>Sort Order</th>";
+                    echo "<th></th><th></th><th></th><th>PDF File Name</th></tr></thead>";
                     while ($row = $result->fetch_assoc()) {
                         /* count the number of races on a date */
                         $sql = "select count(*) as count from `raceday_ohioraceday`.`races` where RaceStart = '" . $row["RaceStart"] . "';";
@@ -71,10 +72,10 @@
                         $rowCount = $row2["count"];
 
                         echo "<tr><form action='RaceOrder.php' method='post'><input type='hidden' name='RaceID' value='" . $row["RaceID"] . "'/><td>"
-                        . $row["RaceName"] . "</td><td>" . $row["RaceStart"] . "</td><td>" . $row["SortOrder"]
+                        . $row["RaceName"] . "</td><td>" . date('m/d/Y', strtotime($row["RaceStart"])) . "</td><td>" . $row["SortOrder"]
                         . "</td>";
                         if ($rowCount > 1) {
-                            echo "<td><select name='Sort'><option value=''>Select...</option>";
+                            echo "<td><select style='width:40px;' name='Sort'><option value=''>Select...</option>";
                             for ($i = 1; $i <= $rowCount;) {
                                 if ($i == $row["SortOrder"])
                                     echo "<option value='" . $i . "'selected='selected'>" . $i . "</option>";
@@ -83,19 +84,22 @@
                                 $i = $i + 1;
                             }
 
-                            echo "</select></td><td><input type='submit' value='Save' name='submit'></td>";
+                            echo "</select></td><td><input class='btn-xs btn-info' type='submit' value='Save' name='submit'></td>";
                         }
                         else {
                             echo"<td></td><td></td>";
                         }
-                        echo "<td><input type='submit' value='Delete' name='delete'></td></form>";
+                        echo "</form>";
+                        echo '<td><a class="btn-sm btn-danger" href="cfmdelete.php?raceid=' . $row["RaceID"] . '">Delete</a></td>';
                         if ($row["PDF"] == 1) {
-                            echo "<td>".$row["PDFName"]."</td>";
+                            echo "<td>" . $row["PDFName"] . "</td>";
                         } else {
                             echo "<td></td>";
                         }
                         echo "<form action='uploadpdf.php' method='post'><input type='hidden' name='RaceID' value='" . $row["RaceID"] . "'/>";
-                        echo "<td><input type='submit' value='Edit' name='edit'></td>";
+                        echo "<td><input class='btn-xs btn-primary' type='submit' value='PDF' name='edit'></td>";
+                        echo "</form><form action='uploadcsv.php' method='post'><input type='hidden' name='RaceID' value='" . $row["RaceID"] . "'/>";
+                        echo "<td><input class='btn-xs btn-primary' type='submit' value='CSV' name='edit'></td>";
                         echo "</form>";
                         echo "</tr>";
                     }
@@ -131,7 +135,7 @@
 
             function deleteRace() {
                 $RaceID = $_POST['RaceID'];
-
+                echo $RaceID;
                 $db = parse_ini_file("config-file.ini");
                 $dbUserName = $db['user'];
                 $dbServer = $db['host'];

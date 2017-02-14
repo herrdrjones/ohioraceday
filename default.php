@@ -23,8 +23,9 @@
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
                             <li class="nav active"><a href=".">Upload Results</a></li>
-                            <li class="nav"><a href="RaceOrder.php">Race Order</a></li>
+                            <li class="nav"><a href="RaceOrder.php">Race Admin</a></li>
                             <li class="nav"><a href="ViewResults.php">Results</a></li>
+                            <li class="nav"><a href="NewRace.php">New Race</a></li>
                         </ul>
                     </div>        
                 </div>

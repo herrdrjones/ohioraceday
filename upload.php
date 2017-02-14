@@ -22,7 +22,7 @@
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
                             <li class="nav"><a href=".">Back</a></li>
-                            <li class="nav"><a href="RaceOrder.php">Race Order</a></li>
+                            <li class="nav"><a href="RaceOrder.php">Race Admin</a></li>
                             <li class="nav"><a href="ViewResults.php">Results</a></li>
                         </ul>
                     </div>        
@@ -180,6 +180,11 @@ for ($row = 1; $row < $rows; $row++) {
   echo "<br/>";
   if ($rowCount != 0){
       echo $rowCount." Finishers added to database.";
+      $connection = new mysqli($dbServer, $dbUserName, $dbPassword, $dbName);
+      $sql = "UPDATE `raceday_ohioraceday`.`races` set DBResults = 1 where RaceID =".$RaceID;
+      $connection->query($sql);
+      $connection->close();
+      
   }
   else{
       echo "No Finishers were found in file: ".basename( $_FILES["fileToUpload"]["name"]);

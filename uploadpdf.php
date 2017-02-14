@@ -39,7 +39,7 @@
             $dbName = $db['name'];
             $dbPassword = $db['pass'];
 
-            if ($action == "Edit") {
+            if ($action == "PDF") {
                 editPDF($dbUserName, $dbServer, $dbName, $dbPassword, $raceID);
             }
             if ($action == "Add") {
@@ -83,7 +83,11 @@
                 if ($conn->connect_error) {
                     die("Connection failed: " . $conn->connect_error);
                 }
-                $target_dir = "../uploads/";
+                $sql = "SELECT left(`races`.`RaceStart`, 4) as Year FROM `raceday_ohioraceday`.`races` where RaceID =".$raceID;
+                $results = $conn->query($sql);
+                $row = $results->fetch_assoc();
+               
+                $target_dir = "../Results/".$row["Year"]."/";
                 $target_file = $target_dir.$_FILES["fileToUpload"]["name"];
                 if ($target_dir != $target_file) {
                     $uploadOk = 1;
@@ -95,7 +99,7 @@
                     // if everything is ok, try to upload file
                     } else {
                         if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-                                $target_file = "uploads/".$_FILES["fileToUpload"]["name"];
+                                $target_file = $target_dir.$_FILES["fileToUpload"]["name"];
                                 $query = "UPDATE `raceday_ohioraceday`.`races` SET PDF = 1, FileLocation = '".$target_file."', PDFName = '"
                                         .$_FILES["fileToUpload"]["name"]."' where RaceID =".$raceID.";";
                                 $results = $conn->query($query);
@@ -117,7 +121,7 @@
                 $sql = "SELECT * from `raceday_ohioraceday`.`races` where RaceID = ".$raceID;
                 $result = $conn->query($sql);
                 $row = $result->fetch_assoc();
-                unlink("../".$row["FileLocation"]);
+                unlink($row["FileLocation"]);
                 
                 $sql = "UPDATE `raceday_ohioraceday`.`races` SET PDF = 0, FileLocation = '', PDFName = '' where RaceID =".$raceID.";";
                 $conn->query($sql);

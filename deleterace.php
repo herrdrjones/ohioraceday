@@ -37,8 +37,9 @@ function deletePDF($dbUserName, $dbServer, $dbName, $dbPassword, $raceID) {
     $result = $conn->query($sql);
     $row = $result->fetch_assoc();
 
-    unlink($row["FileLocation"]);
-
+    if($row["FileLocation"] != ""){
+        unlink($row["FileLocation"]);
+    }
     $sql = "UPDATE `raceday_ohioraceday`.`races` SET PDF = 0, FileLocation = '', PDFName = '' where RaceID =" . $raceID . ";";
     $conn->query($sql);
 }

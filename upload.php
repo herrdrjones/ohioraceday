@@ -146,7 +146,7 @@ $connection->close();
 $connection = new mysqli($dbServer, $dbUserName, $dbPassword, $dbName);
 $rowCount = 0;
 for ($row = 1; $row < $rows; $row++) {  
-    if($array[$row][$FinishingTime] != "") {
+    if($array[$row][$FinishingTime] != "" && $array[$row][$FinishingTime] != "DNF" && $array[$row][$FinishingTime] != "DNS") {
     $BirthDate = explode("/", $array[$row][$DOB]);
     $query = "INSERT INTO `raceresults`(`BibNo`, `LastName`, `FirstName`, `Sex`, `DOB`, `Age`, `AthleteType`,`Email`, `RaceID`, `OverallPlace`,`BestDiv`, `DivPlace`, `FinishingTime`, `PacePerMile`) VALUES ";
     $query .= "(".$array[$row][$BibNo].", ";

@@ -110,6 +110,7 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc())
     {
+    if($row["BestDiv"] != ""){
         $DivQuery = "SELECT DivPlace, BibNo, FirstName, LastName, FinishingTime FROM raceresults where RaceID = ".$race." and BestDiv ='".$row["BestDiv"]."' ORDER BY DivPlace";
     
         $result2 = $conn->query($DivQuery);
@@ -122,11 +123,13 @@ if ($result->num_rows > 0) {
             while($row2 = $result2->fetch_assoc()) {
         echo "<tr><td>".$row2["DivPlace"]."</td><td>".$row2["BibNo"]."</td><td>".$row2["LastName"].", ".$row2["FirstName"].'</td><td>'.$row2["FinishingTime"]."</td></tr>";
         //echo "Bib #: " .$row["BibNo"]. " - Name: " . $row["FirstName"]. " " . $row["LastName"]." ".$row["FinishingTime"]. "<br>";
+            }
     }
     echo "</table>";
-        }
+        
         echo "</div>";
     }
+            }
 }
 $conn->close();
 

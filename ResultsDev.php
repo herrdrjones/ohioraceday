@@ -146,11 +146,11 @@
                                         $previousRow = "none";
                                         while ($singleRow = $results->fetch_assoc()) {
                                             //echo "<tr><td>".$singleRow["RaceName"]."</td></tr>";
-                                            if (substr($singleRow["RaceName"], 0, 8) == $previousRow) {
+                                            if (substr($singleRow["RaceName"], 0, 5) == $previousRow) {
                                                 //echo "<tr><td><hr/></td></tr>";    
                                             } else {
-                                                //echo "<tr><td><br/></td></tr>";
-                                                echo "<tr><td><br/></td></tr>";
+                                                //echo "<tr><td> </td></tr>";
+                                                echo "<tr><td>&nbsp</td></tr>";
                                             }
                                             if ($singleRow["PDF"] == 0 && $singleRow["DBResults"] == 0) {
                                                 echo '<tr><td>' . $singleRow["RaceName"] . ' (Coming Soon)';
@@ -165,7 +165,7 @@
                                                 }
                                                 echo '</td></tr>';
                                             }
-                                            $previousRow = substr($singleRow["RaceName"], 0, 8);
+                                            $previousRow = substr($singleRow["RaceName"], 0, 5);
 
                                             //echo var_dump($previousRow);
                                         }

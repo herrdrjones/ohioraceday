@@ -40,7 +40,7 @@
             </header>   
         </div>
      <form action="add.php" method="post" enctype="multipart/form-data">
-     <div class="col-md-3">
+     <div class="col-md-4">
          <table class="table">
              
              <tr><td class="pull-right" style="border-top:none;">

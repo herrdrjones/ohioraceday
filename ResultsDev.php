@@ -30,6 +30,10 @@
                 background: none !important;
                 padding: 0 !important;
             }
+            table td{
+                border:none !important;
+                padding:0px !important;
+            }
         </style>
         <script type='text/javascript' src='http://ohioraceday.com/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
         <script type='text/javascript' src='http://ohioraceday.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
